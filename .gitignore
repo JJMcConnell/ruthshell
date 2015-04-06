@@ -1,2 +1,6 @@
+# Ignore editor files
 *~
 *.swp
+
+# Ignore object files
+*.o

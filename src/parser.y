@@ -22,6 +22,8 @@ commands:
        | commands command
 
 command:
+       NL               /* blank line does nothing */
+       |
        builtincmd NL
        |
        externalcmd NL

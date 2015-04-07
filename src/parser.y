@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include "ruthshell.h"
+#include "util.h"
 %}
 
 
@@ -22,7 +23,7 @@ commands:
        | commands command
 
 command:
-       NL               /* blank line does nothing */
+       NL
        |
        builtincmd NL
        |

@@ -1,6 +1,9 @@
 #ifndef RUTH_SHELL_H
 #define RUTH_SHELL_H
 
+/* some definitions */
+#define MAXSTRINGLEN 256
+
 /* needed for bison/flex */
 void yyerror(const char *str);
 int yywrap();

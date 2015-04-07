@@ -34,12 +34,12 @@ builtincmd:
 cd:
        CD
        {
-         printf("CD HOME\n");
+           cdHome();
        }
        |
        CD WORD
        {
-         printf("CD %s\n", $2);
+           cd($2);
        }
 
 externalcmd:

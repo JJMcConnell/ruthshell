@@ -2,5 +2,8 @@
 *~
 *.swp
 
-# Ignore object files
+# Ignore binaries/generated stuff
 *.o
+*.tab.*
+*.yy.*
+ruthshell

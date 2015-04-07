@@ -9,7 +9,7 @@
 %%
 
 cd						 return CD; 
-[a-zA-Z0-9\-\.*_]+       yylval.word = strdup(yytext); return WORD; /*Free this memory*/ 
+[a-zA-Z0-9\/\-\.*_]+       yylval.word = strdup(yytext); return WORD; /*Free this memory*/ 
 \n                       return NL; /* NL is newline */
 [ \t]+                   ; /* do nothing */
 

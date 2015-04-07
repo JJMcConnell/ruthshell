@@ -8,8 +8,8 @@
 %}
 %%
 
-[a-zA-Z0-9\-\.*_]+       yylval.word = strdup(yytext); return WORD;
-
+cd						 return CD; 
+[a-zA-Z0-9\-\.*_]+       yylval.word = strdup(yytext); return WORD; /*Free this memory*/ 
 \n                       ; 
 [ \t]+                   ; /* do nothing */
 

@@ -1,5 +1,6 @@
 #include "util.h"
 #include "ruthshell.h"
+#include "y.tab.h"
 
 #include <string.h>
 #include <stdio.h>
@@ -24,3 +25,13 @@ void printPrompt(void) {
     printf("%s", prompt);
 }
 
+void strCopyToBuffer(char* buffer, char* str) {
+    do
+        *buffer++ = *str++;
+    while (*str != '\0');
+}
+
+void moveTokensToYylval(char* yytext) {
+    strCopyToBuffer(strBuffer, yytext);
+    yylval.word = strBuffer;
+}

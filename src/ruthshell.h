@@ -4,6 +4,8 @@
 /* some definitions */
 #define MAXSTRINGLEN 256
 
+char strBuffer[MAXSTRINGLEN]; //constness should be different here
+
 /* needed for bison/flex */
 void yyerror(const char *str);
 int yywrap();

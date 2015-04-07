@@ -15,7 +15,7 @@
 
 %token <word> WORD
 %token <word> BUILTIN
-%token <number> CD NL
+%token <number> CD NL DOUBLE_QUOTE
 
 %%
 
@@ -24,6 +24,8 @@ commands:
 
 command:
        NL
+       |
+       DOUBLE_QUOTE WORD DOUBLE_QUOTE
        |
        builtincmd NL
        |

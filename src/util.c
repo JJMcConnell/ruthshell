@@ -27,11 +27,16 @@ void printPrompt(void) {
 
 void strCopyToBuffer(char* buffer, char* str) {
     do
-        *buffer++ = *str++;
-    while (*str != '\0');
+        *buffer++ = *str;
+    while (*str++ != '\0');
 }
 
 void moveTokensToYylval(char* yytext) {
+    cleanStringBuffer(strBuffer);
     strCopyToBuffer(strBuffer, yytext);
     yylval.word = strBuffer;
+}
+
+void cleanStringBuffer(char* buffer) {
+    *buffer = '\0';   
 }

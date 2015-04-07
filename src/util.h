@@ -7,5 +7,6 @@ void strCopyToBuffer(char* const buffer, char* const str);
 
 /* this copies yytext into yylval for flex */
 void moveTokensToYylval();
+void cleanStringBuffer(char* buffer);
 
 #endif /* UTIL_H_ */

@@ -1,7 +1,7 @@
 EXECNAME = shell
 
-all: y.tab.o lex.yy.o ruthshell.o
-	gcc -o $(EXECNAME) y.tab.o lex.yy.o ruthshell.o
+all: y.tab.o lex.yy.o util.o ruthshell.o 
+	gcc -o $(EXECNAME) y.tab.o lex.yy.o util.o ruthshell.o
 
 y.tab.o: y.tab.c y.tab.h
 	gcc -c y.tab.c
@@ -16,6 +16,9 @@ lex.yy.o: lex.yy.c
 
 lex.yy.c: lexer.l
 	flex lexer.l
+
+util.o: util.c
+	gcc -c util.c
 
 ruthshell.o: ruthshell.c
 	gcc -c ruthshell.c

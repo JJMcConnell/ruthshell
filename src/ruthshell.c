@@ -3,15 +3,15 @@
 #include <unistd.h>
 
 #include "ruthshell.h"
+#include "util.h"
 #include "y.tab.h"
 
 int main() {
     while (1) {
+        printPrompt();
         int status = yyparse();
-        printf("yyparse() has returned: %d", status);
+        printf("yyparse() has returned: %d\n", status);
     }
-
-
 }
 
 /* need for flex and bison */
@@ -23,7 +23,6 @@ void yyerror(const char *str) {
 int yywrap() {
     return 1;
 } 
-
 
 
 /*** Shell Operations ***/

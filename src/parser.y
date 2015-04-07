@@ -14,7 +14,7 @@
 
 %token <word> WORD
 %token <word> BUILTIN
-%token <number> CD
+%token <number> CD NL
 
 %%
 
@@ -22,30 +22,28 @@ commands:
        | commands command
 
 command:
-       builtincmd        
+       builtincmd NL
        |
-       externalcmd
+       externalcmd NL
 
 builtincmd:
-    cd
+       cd
     
 cd:
-  CD  
-    {
-      printf("CD HOME");
-      return 0;
-    }
-  |
-  CD WORD
-    {
-      printf("CD %s", $2);
-      return 0;
-    }
+       CD
+       {
+         printf("CD HOME\n");
+       }
+       |
+       CD WORD
+       {
+         printf("CD %s\n", $2);
+       }
 
 externalcmd:
-    WORD
-    {
-        runcmd($1);
-    };
+       WORD
+       {
+           runcmd($1);
+       };
 
 %%

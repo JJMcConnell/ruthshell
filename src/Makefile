@@ -1,4 +1,4 @@
-EXECNAME = ruthshell
+EXECNAME = shell
 
 all: y.tab.o lex.yy.o ruthshell.o
 	gcc -o $(EXECNAME) y.tab.o lex.yy.o ruthshell.o

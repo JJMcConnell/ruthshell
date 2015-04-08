@@ -3,6 +3,7 @@
 
 /* some definitions */
 #define MAXSTRINGLEN 256
+#define EXIT_SUCCESS 0
 
 char strBuffer[MAXSTRINGLEN]; //constness should be different here
 
@@ -14,6 +15,7 @@ int yywrap();
 /* builtins */
 int cdHome(void);
 int cd(char* path);
+int bye(void);
 
 /* external commands */
 int runcmd(char* command);

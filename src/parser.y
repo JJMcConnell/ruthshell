@@ -15,7 +15,7 @@
 
 %token <word> WORD
 %token <word> BUILTIN
-%token <number> CD NL DOUBLE_QUOTE
+%token <number> CD NL DOUBLE_QUOTE BYE
 
 %%
 
@@ -33,6 +33,8 @@ command:
 
 builtincmd:
        cd
+       |
+       bye
     
 cd:
        CD
@@ -43,6 +45,12 @@ cd:
        CD WORD
        {
            cd($2);
+       }
+
+bye:
+       BYE
+       {
+          return bye();
        }
 
 externalcmd:

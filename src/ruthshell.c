@@ -10,7 +10,10 @@ int main() {
     while (1) {
         printPrompt();
         int status = yyparse();
-        printf("yyparse() has returned: %d\n", status);
+
+        if (status == EXIT_SUCCESS) {
+            return status;
+        }
     }
 }
 
@@ -33,6 +36,10 @@ int cdHome(void) {
 
 int cd(char* path) {
     return chdir(path);
+}
+
+int bye(void) {
+    return EXIT_SUCCESS;   
 }
 
 /* for external commands */

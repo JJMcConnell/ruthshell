@@ -3,7 +3,8 @@
 
 /* some definitions */
 #define MAXSTRINGLEN 256
-#define EXIT_SUCCESS 0
+#define EXITSUCCESS 100
+#define EOLFOUND    0
 
 char strBuffer[MAXSTRINGLEN]; //constness should be different here
 

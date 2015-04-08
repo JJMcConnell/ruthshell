@@ -11,9 +11,13 @@ int main() {
         printPrompt();
         int status = yyparse();
 
-        if (status == EXIT_SUCCESS) {
+        if (status == EOLFOUND) {
+            // only case where bye hasn't yet been called
             printf("\n");
-            return status;
+            return bye();
+        }
+        else if (status == EXITSUCCESS) {
+            return 0;
         }
     }
 }
@@ -40,7 +44,7 @@ int cd(char* path) {
 }
 
 int bye(void) {
-    return EXIT_SUCCESS;   
+    return EXITSUCCESS;   
 }
 
 /* for external commands */

@@ -10,7 +10,15 @@ int main() {
     while (1) {
         printPrompt();
         int status = yyparse();
-        printf("yyparse() has returned: %d\n", status);
+
+        if (status == EOLFOUND) {
+            // only case where bye hasn't yet been called
+            printf("\n");
+            return bye();
+        }
+        else if (status == EXITSUCCESS) {
+            return 0;
+        }
     }
 }
 
@@ -33,6 +41,10 @@ int cdHome(void) {
 
 int cd(char* path) {
     return chdir(path);
+}
+
+int bye(void) {
+    return EXITSUCCESS;   
 }
 
 /* for external commands */

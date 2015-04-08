@@ -1,5 +1,6 @@
 %{
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include "ruthshell.h"
@@ -15,7 +16,7 @@
 
 %token <word> WORD
 %token <word> BUILTIN
-%token <number> CD NL
+%token <number> CD NL DOUBLE_QUOTE BYE
 
 %%
 
@@ -25,12 +26,16 @@ commands:
 command:
        NL
        |
+       DOUBLE_QUOTE WORD DOUBLE_QUOTE
+       |
        builtincmd NL
        |
        externalcmd NL
 
 builtincmd:
        cd
+       |
+       bye
     
 cd:
        CD
@@ -41,6 +46,12 @@ cd:
        CD WORD
        {
            cd($2);
+       }
+
+bye:
+       BYE
+       {
+          return bye();
        }
 
 externalcmd:

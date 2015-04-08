@@ -8,9 +8,11 @@
 %}
 %%
 
+bye                        return BYE;
 cd						   return CD; 
 [a-zA-Z0-9\/\-\.*_]+       moveTokensToYylval(yytext); return WORD; /*Free this memory*/ 
 \n                         printPrompt(); return NL; /* NL is newline */
 [ \t]+                     ; /* do nothing */
+\"					       return DOUBLE_QUOTE;
 
 %%

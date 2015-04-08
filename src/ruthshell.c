@@ -12,6 +12,7 @@ int main() {
         int status = yyparse();
 
         if (status == EXIT_SUCCESS) {
+            printf("\n");
             return status;
         }
     }

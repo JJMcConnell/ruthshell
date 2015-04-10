@@ -69,11 +69,21 @@ int runCmdAndFreeStrings(void) {
         // wait for the forked process to finish
         int status;
         waitpid(subProc, &status, 0);
-        int retVal = WEXITSTATUS(status);
-        if (retVal != 0)
-            printf("Error: command return %i\n", retVal);
 
+        if (WIFEXITED(status)){
+
+            int retVal = WEXITSTATUS(status);
+            if (retVal != 0)
+                            
+                if(retVal == 255) {
+                    printf("Error: command not found \n");
+                }   
+             
+                else {
+                    printf("Error: command returned %i\n", retVal);
+                }
         // do some smart error handling with status
+        }
     }
 
     popArgsFreeStrings(); // free argv

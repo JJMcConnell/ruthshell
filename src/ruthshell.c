@@ -1,9 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 
 #include "ruthshell.h"
 #include "util.h"
+#include "arglist.h"
 #include "y.tab.h"
 
 int main() {
@@ -48,8 +51,21 @@ int bye(void) {
 }
 
 /* for external commands */
-int runcmd(char* cmd) {
-    int retVal = system(cmd);
+int runCmdAndFreeStrings(void) {
+    // first create fork for new process
+    pid_t subProc = fork();
 
-    return retVal;
+    if (subProc == 0) { // if child process
+        // execute the command with argv
+        execvpe(cmd, argv, environ);
+    }
+    else { // if shell process
+        // wait for the spawned process to finish
+        int status;
+        waitpid(subProc, &status, 0);
+    }
+
+
+    popArgsFreeStrings(); // free argv
+    return 0;
 }

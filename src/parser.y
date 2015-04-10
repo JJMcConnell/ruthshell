@@ -5,6 +5,7 @@
 
 #include "ruthshell.h"
 #include "util.h"
+#include "arglist.h"
 %}
 
 
@@ -31,6 +32,9 @@ command:
        cmd.builtin NL
        |
        cmd.external NL
+       {
+           runCmdAndFreeStrings();
+       }
 
 cmd.builtin:
        cd
@@ -55,25 +59,26 @@ bye:
        }
 
 cmd.external:
-       WORD
-       {
-            printf("got command, no args\n");
-       }
+       execfile args
        |
-       WORD args
-       {
-            printf("got command with args!\n");
-       }
+       execfile
+
+execfile:
+      WORD
+      {
+          cmd = strdup($1);
+          pushArg($1); // first arg is invocation
+      }
 
 args:
        WORD
        {
-            printf("Got an arg\n");
+            pushArg($1);
        }
        |
        args WORD
        {
-            printf("Got arg with more to follow\n");
+           pushArg($2);
        }
 
 %%

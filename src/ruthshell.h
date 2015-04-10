@@ -6,6 +6,12 @@
 #define EXITSUCCESS 100
 #define EOLFOUND    0
 
+/* these should be defined on the unix (POSIX) system */
+extern char** environ;
+extern int execvpe(const char *file, char *const argv[],
+        char *const envp[]);
+
+
 char strBuffer[MAXSTRINGLEN]; //constness should be different here
 
 /* needed for bison/flex */
@@ -19,6 +25,6 @@ int cd(char* path);
 int bye(void);
 
 /* external commands */
-int runcmd(char* command);
+int runCmdAndFreeStrings(void);
 
 #endif /* RUTH_SHELL_H */

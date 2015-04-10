@@ -5,6 +5,7 @@
 
 #include "ruthshell.h"
 #include "util.h"
+#include "arglist.h"
 %}
 
 
@@ -28,11 +29,14 @@ command:
        |
        DOUBLE_QUOTE WORD DOUBLE_QUOTE
        |
-       builtincmd NL
+       cmd.builtin NL
        |
-       externalcmd NL
+       cmd.external NL
+       {
+           runCmdAndFreeStrings();
+       }
 
-builtincmd:
+cmd.builtin:
        cd
        |
        bye
@@ -54,10 +58,27 @@ bye:
           return bye();
        }
 
-externalcmd:
+cmd.external:
+       execfile args
+       |
+       execfile
+
+execfile:
+      WORD
+      {
+          cmd = strdup($1);
+          pushArg($1); // first arg is invocation
+      }
+
+args:
        WORD
        {
-           runcmd($1);
-       };
+            pushArg($1);
+       }
+       |
+       args WORD
+       {
+           pushArg($2);
+       }
 
 %%

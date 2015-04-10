@@ -28,11 +28,11 @@ command:
        |
        DOUBLE_QUOTE WORD DOUBLE_QUOTE
        |
-       builtincmd NL
+       cmd.builtin NL
        |
-       externalcmd NL
+       cmd.external NL
 
-builtincmd:
+cmd.builtin:
        cd
        |
        bye
@@ -54,10 +54,26 @@ bye:
           return bye();
        }
 
-externalcmd:
+cmd.external:
        WORD
        {
-           runcmd($1);
-       };
+            printf("got command, no args\n");
+       }
+       |
+       WORD args
+       {
+            printf("got command with args!\n");
+       }
+
+args:
+       WORD
+       {
+            printf("Got an arg\n");
+       }
+       |
+       args WORD
+       {
+            printf("Got arg with more to follow\n");
+       }
 
 %%

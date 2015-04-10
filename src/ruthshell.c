@@ -60,11 +60,10 @@ int runCmdAndFreeStrings(void) {
         execvpe(cmd, argv, environ);
     }
     else { // if shell process
-        // wait for the spawned process to finish
+        // wait for the forked process to finish
         int status;
         waitpid(subProc, &status, 0);
     }
-
 
     popArgsFreeStrings(); // free argv
     return 0;

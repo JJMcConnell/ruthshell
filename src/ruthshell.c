@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <errno.h>
 
 #include "ruthshell.h"
 #include "util.h"
@@ -43,7 +44,26 @@ int cdHome(void) {
 }
 
 int cd(char* path) {
-    return chdir(path);
+
+    if(chdir(path) == -1) {
+
+    int value = errno;
+    
+    if (value == ENOENT){
+
+        printf("Error: the file does not exist \n");
+    }
+    else if (value == EACCES){
+        
+        printf("Error: permission is denied for one of the components of the path \n");
+    }
+    else if (value == ENOTDIR){
+
+        printf("Error: A component of the path is not a directory \n");
+    }
+    return value;
+
+    }
 }
 
 int bye(void) {

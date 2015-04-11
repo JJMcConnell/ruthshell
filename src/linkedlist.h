@@ -30,7 +30,7 @@ void push(LinkedList* l, Data* d);
 /* Deallocates the whole list */
 void freeList(LinkedList* l);
 void pop(LinkedList* l, Data* d);
-void popNode(LinkedListNode* n, DataType dt);
+void popNode(LinkedList* l, LinkedListNode* n);
 
 
 #endif /* execute_externel_command */

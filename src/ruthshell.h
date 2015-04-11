@@ -23,6 +23,9 @@ int yywrap();
 int cdHome(void);
 int cd(char* path);
 int bye(void);
+int alias(void);
+int aliasAdd(char* name, char* word);
+int unalias(char* name);
 
 /* external commands */
 int runCmdAndFreeStrings(void);

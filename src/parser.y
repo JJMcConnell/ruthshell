@@ -17,7 +17,7 @@
 
 %token <word> WORD
 %token <word> BUILTIN
-%token <number> CD NL DOUBLE_QUOTE BYE
+%token <number> CD NL DOUBLE_QUOTE BYE ALIAS UNALIAS
 
 %%
 
@@ -40,6 +40,25 @@ cmd.builtin:
        cd
        |
        bye
+       |
+       alias
+
+alias:
+       ALIAS
+       {
+           alias();
+       }
+       |
+       ALIAS WORD WORD
+       {
+           aliasAdd($2, $3);
+       }
+       |
+       UNALIAS WORD
+       {
+           unalias($2);
+       }
+
     
 cd:
        CD

@@ -50,6 +50,20 @@ int bye(void) {
     return EXITSUCCESS;   
 }
 
+int alias(void) {
+
+        
+
+}
+
+int aliasAdd(char* name, char* word) {
+    
+}
+
+int unalias(char* name) {
+
+}
+
 /* for external commands */
 int runCmdAndFreeStrings(void) {
     // first create fork for new process

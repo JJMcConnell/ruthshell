@@ -21,12 +21,12 @@ void pop(LinkedList* l, Data* d) {
     while (cur != NULL && !found) {
         if (l->dt == DATAINT &&
                 cur->data.i == d->i) {
-            popNode(cur, l->dt);
+            popNode(l, cur);
             break;
         }
         else if (l->dt == DATASTRING &&
                 strcmp(cur->data.s, d->s)) {
-            popNode(cur, l->dt);
+            popNode(l, cur);
             break;
         }
 
@@ -35,17 +35,25 @@ void pop(LinkedList* l, Data* d) {
     }
 }
 
-void popNode(LinkedListNode* n, DataType dt) {
+void popNode(LinkedList* l, LinkedListNode* n) {
     // free a string if that's the dt
-    if (dt == DATASTRING)
+    if (l->dt == DATASTRING)
         free(n->data.s);
 
     // cut n out of the list
-    if (n->prev != NULL)
-        n->prev->next = n->next;
-    if (n->next != NULL &&
-            n->prev != NULL)
-        n->next->prev = n->prev;
+    if (n->prev == NULL) {
+        if (n->next == NULL) 
+            l->head = NULL; // list length one
+        l->head = n->next; // decapitate
+    }
+    else if (n->next == NULL) {
+        n->prev->next = NULL; // decaudate
+    }
+    else {
+        LinkedListNode* popPrev = n->prev; // in the middle
+        popPrev->next = n->next;
+        n->next->prev = popPrev;
+    }
 
     // free the node
     free(n);
@@ -56,7 +64,7 @@ void freeList(LinkedList* l) {
     
     while (cur != NULL) {
         LinkedListNode* next = cur->next;
-        popNode(cur, l->dt);
+        popNode(l, cur);
         cur = next;
     }
 

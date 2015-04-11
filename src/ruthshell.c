@@ -64,6 +64,21 @@ int unalias(char* name) {
 
 }
 
+void ruthSetenv(char* variable, char* word){
+    
+}
+
+void ruthPrintenv(void){
+
+}
+
+void ruthUnsetenv(char* variable){
+
+}
+
+
+
+
 /* for external commands */
 int runCmdAndFreeStrings(void) {
     // first create fork for new process

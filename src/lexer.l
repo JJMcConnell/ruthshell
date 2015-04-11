@@ -10,6 +10,9 @@
 
 bye                        return BYE;
 cd						   return CD; 
+setenv                     moveTokensToYylval(yytext); return SETENV;
+unsetenv                   moveTokensToYylval(yytext); return UNSETENV;
+printenv                   return PRINTENV;
 alias                      moveTokensToYylval(yytext); return ALIAS;
 [a-zA-Z0-9\/\-\.*_]+       moveTokensToYylval(yytext); return WORD; /*Free this memory*/ 
 \n                         printPrompt(); return NL; /* NL is newline */

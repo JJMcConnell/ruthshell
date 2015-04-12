@@ -13,11 +13,13 @@
     int integer;
     char* string;
     char* word;
+
 }
 
 %token <word> WORD
-%token <word> BUILTIN
-%token <number> CD NL DOUBLE_QUOTE BYE
+%token <word> BUILTIN 
+%token <word> DOUBLE_QUOTE
+%token <number> CD NL BYE 
 
 %%
 
@@ -27,9 +29,9 @@ commands:
 command:
        NL
        |
-       DOUBLE_QUOTE WORD DOUBLE_QUOTE
+       DOUBLE_QUOTE
        {
-            doubleQuote($2);
+            doubleQuote($1);
        }
        |
        cmd.builtin NL

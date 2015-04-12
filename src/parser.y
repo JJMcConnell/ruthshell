@@ -28,6 +28,9 @@ command:
        NL
        |
        DOUBLE_QUOTE WORD DOUBLE_QUOTE
+       {
+            doubleQuote($2);
+       }
        |
        cmd.builtin NL
        |

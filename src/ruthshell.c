@@ -36,6 +36,8 @@ int yywrap() {
 } 
 
 
+
+
 /*** Shell Operations ***/
 /* builtins */
 int cdHome(void) {
@@ -48,6 +50,11 @@ int cd(char* path) {
 
 int bye(void) {
     return EXITSUCCESS;   
+}
+
+/* metacharacters */
+void doubleQuote(char* word) {
+    printf("Double quote found, the string inbetween them is %s", word);
 }
 
 /* for external commands */

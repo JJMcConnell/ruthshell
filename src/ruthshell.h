@@ -24,6 +24,10 @@ int cdHome(void);
 int cd(char* path);
 int bye(void);
 
+/* metacharacters */
+
+void doubleQuote(char* word);
+
 /* external commands */
 int runCmdAndFreeStrings(void);
 

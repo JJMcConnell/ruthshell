@@ -3,6 +3,7 @@
 #include "y.tab.h"
 #include "lex.yy.h"
 #include "arglist.h"
+#include "alias.h"
 
 #include <string.h>
 #include <stdio.h>
@@ -27,52 +28,30 @@ void printPrompt(void) {
     printf("%s", prompt);
 }
 
-void strCopyToBuffer(char* buffer, char* str) {
-    do
-        *buffer++ = *str;
-    while (*str++ != '\0');
-}
-
 void moveTokensToYylval(char* yytext) {
     // move old yylval to secondToLastWord
     cleanStringBuffer(secondToLastWord);
-    strCopyToBuffer(secondToLastWord, strBuffer);
+    strcpy(secondToLastWord, strBuffer);
 
     // copy yytext to yylval
     cleanStringBuffer(strBuffer);
-    strCopyToBuffer(strBuffer, yytext);
+    strcpy(strBuffer, yytext);
     yylval.word = strBuffer;
 }
 
 void cleanStringBuffer(char* buffer) {
-    *buffer = '\0';   
-}
-
-int printStringData(Data* d) {
-    printf("%s\n", d->s);
-    return 0; // don't break
-}
-
-int printIntData(Data* d) {
-    printf("%i\n", d->i);
-    return 0; // don't break
-}
-
-int printKeyData(Data* d) {
-    printf("%s\n", d->key);
-    return 0; // don't break
+    *buffer = '\0';
 }
 
 bool handledCommandWithAlias(char* cmd) {
-    LinkedListNode* cur = aliasList->head;
+    size_t i = 0;
 
-    while (cur != NULL) {
-        //printf("cur = %p\n", cur);
-        if (streq(cur->data.key, cmd)) {
+    for (i = 0; i < aliasCount; ++i) {
+        if (streq(aliastab[i].alias, cmd)) {
             // now feed the value and arguments through lex
             char buf[MAXSTRINGLEN];
             buf[0] = '\0';
-            strcat(buf, cur->data.value);
+            strcat(buf, aliastab[i].cmd);
 
             char** cur = argv + 1; // skip argv[0] (invocation)
             while (*cur != NULL) {
@@ -93,8 +72,6 @@ bool handledCommandWithAlias(char* cmd) {
 
             return true; // yes, handled
         }
-
-        cur = cur->next;
     }
     return false; // no alias, unhandled
 }

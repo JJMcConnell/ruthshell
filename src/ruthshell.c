@@ -10,8 +10,6 @@
 #include "arglist.h"
 #include "y.tab.h"
 
-LinkedList* aliasList;
-
 char strBuffer[MAXSTRINGLEN];
 char secondToLastWord[MAXSTRINGLEN];
 
@@ -34,12 +32,12 @@ int main() {
 }
 
 void init() {
-    if (aliasList == NULL)
-        aliasList = createNewLinkedList(DATAPAIR);
+    // set all of the tab counts to 0
+    aliasCount = 0;
 }
 
 void teardown() {
-    freeList(aliasList);
+
 }
 
 /* need for flex and bison */
@@ -83,36 +81,15 @@ int bye(void) {
 }
 
 void alias(void) {
-    walkAndExecute(aliasList, printKeyData);
+    listAllAliases();
 }
 
 void aliasAdd(char* name, char* word) {
-    Data d = { .key = name, .value = word };
-
-    // see if this alias is already in the list
-    LinkedListNode* curEntry = findNode(aliasList, &d);
-    if (curEntry != NULL) {
-        // we actually need new dynamic string copies
-        curEntry->data.key = strdup(name);
-        curEntry->data.value = strdup(word);
-    }
-    else {
-        // this handles the memory for us
-        push(aliasList, &d); 
-    }
+    addAlias(name, word);
 }
 
 void unalias(char* name) {
-    // find the data with key name
-    LinkedListNode* cur = aliasList->head;
-
-    while (cur != NULL) {
-        if (streq(cur->data.key, name)) {
-            popNode(aliasList, cur);
-            break;
-        }
-        cur = cur->next;
-    }
+    removeAlias(name);
 }
 
 /* for external commands */

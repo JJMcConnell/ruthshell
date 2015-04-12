@@ -1,7 +1,7 @@
 #ifndef RUTH_SHELL_H
 #define RUTH_SHELL_H
 
-#include "linkedlist.h"
+#include "alias.h"
 
 /* some definitions */
 #define MAXSTRINGLEN 256
@@ -13,8 +13,7 @@ extern char** environ;
 extern int execvpe(const char *file, char *const argv[],
         char *const envp[]);
 
-/* lists for aliases, variables, etc. */
-extern LinkedList* aliasList;
+/* lists */
 extern char strBuffer[]; //constness should be different here
 
 /* stores second to last WORD token found */

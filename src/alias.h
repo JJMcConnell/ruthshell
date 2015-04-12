@@ -7,8 +7,8 @@
 #include <stddef.h>
 
 typedef struct _aliastable {
-    char alias[200];
-    char cmd[200];
+    char alias[MAXALIASLENGTH];
+    char cmd[MAXALIASLENGTH];
 } AliasEntry;
 
 extern AliasEntry aliastab[];
@@ -16,7 +16,7 @@ extern size_t aliasCount;
 
 void addAlias(char* alias, char* cmd);
 void removeAlias(char* alias);
-void moveLeft(size_t i);
+void moveAliasLeft(size_t i);
 void listAllAliases(void);
 
 #endif /* ALIAS_H_ */

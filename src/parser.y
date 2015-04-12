@@ -18,7 +18,7 @@
 /* STRING is a literal, with unescaped chars */
 %token <word> WORD STRING
 %token <word> BUILTIN
-%token <number> CD NL BYE ALIAS UNALIAS GT LT
+%token <number> CD NL BYE ALIAS UNALIAS GT LT SETENV PRINTENV UNSETENV
 
 %%
 commands:
@@ -53,6 +53,8 @@ cmd.builtin:
        bye
        |
        alias
+       |
+       envcommands
 
 alias:
        ALIAS
@@ -68,6 +70,25 @@ alias:
        UNALIAS WORD
        {
            unalias($2);
+       }
+
+envcommands:
+       SETENV WORD WORD
+       {
+           
+           ruthSetenv(secondToLastWord, $3);
+       }
+       |
+       PRINTENV
+       {
+           
+           ruthPrintenv();
+       }
+       |
+       UNSETENV WORD
+       {
+           
+           ruthUnsetenv($2);
        }
 
 cd:

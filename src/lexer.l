@@ -10,6 +10,9 @@
 %%
 bye                        return BYE;
 cd						   return CD; 
+setenv                     return SETENV;
+unsetenv                   return UNSETENV;
+printenv                   return PRINTENV;
 alias                      return ALIAS;
 \>                         return GT;
 \<                         return LT;

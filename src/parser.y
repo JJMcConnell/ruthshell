@@ -18,7 +18,7 @@
 /* STRING is a literal, with unescaped chars */
 %token <word> WORD STRING
 %token <word> BUILTIN
-%token <number> CD NL BYE ALIAS UNALIAS
+%token <number> CD NL BYE ALIAS UNALIAS GT LT
 
 %%
 

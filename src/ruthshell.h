@@ -38,7 +38,6 @@ void unalias(char* name);
 
 /* metacharacters */
 
-void doubleQuote(char* word);
 
 /* external commands */
 int runCmdAndFreeStrings(void);

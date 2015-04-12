@@ -11,10 +11,14 @@
 bye                        return BYE;
 cd						   return CD; 
 alias                      return ALIAS;
+>                          return GT;
+<                          return LS;
 unalias                    moveTokensToYylval(yytext); return UNALIAS;
 [a-zA-Z0-9\/\-\.*_]+       moveTokensToYylval(yytext); return WORD; /*Free this memory*/ 
 \n                         printPrompt(); return NL; /* NL is newline */
 [ \t]+                     ; /* do nothing */
+
+
 \".*\" {
     char buf[MAXSTRINGLEN];
     processStringLiteral(yytext, buf);

@@ -1,20 +1,13 @@
 #ifndef RUTH_SHELL_H
 #define RUTH_SHELL_H
 
-#include "alias.h"
-
 /* some definitions */
 #define MAXSTRINGLEN 1024
 #define EXITSUCCESS 100
 #define EOLFOUND    0
 
-/* these should be defined on the unix (POSIX) system */
-extern char** environ;
-extern int execvpe(const char *file, char *const argv[],
-        char *const envp[]);
-
 /* lists */
-extern char strBuffer[]; //constness should be different here
+extern char lastWord[];
 
 /* stores second to last WORD token found */
 extern char secondToLastWord[];
@@ -35,6 +28,9 @@ int bye(void);
 void alias(void);
 void aliasAdd(char* name, char* word);
 void unalias(char* name);
+void ruthSetenv(char* variable, char* word);
+void ruthPrintenv(void);
+void ruthUnsetenv(char* variable);
 
 /* metacharacters */
 

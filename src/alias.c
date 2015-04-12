@@ -32,7 +32,7 @@ void removeAlias(char* alias) {
             // shift all to the right over left
             size_t j = 0;
             for (j = i + 1; j < aliasCount; ++j)
-                moveLeft(j);
+                moveAliasLeft(j);
 
             --aliasCount;
             return;
@@ -40,7 +40,7 @@ void removeAlias(char* alias) {
     }
 }
 
-void moveLeft(size_t i) {
+void moveAliasLeft(size_t i) {
     AliasEntry* e = &aliastab[i];
     AliasEntry* eLeft = &aliastab[i - 1];
 

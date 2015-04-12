@@ -8,10 +8,12 @@
 
 #include "ruthshell.h"
 #include "util.h"
+#include "alias.h"
+#include "variable.h"
 #include "arglist.h"
 #include "y.tab.h"
 
-char strBuffer[MAXSTRINGLEN];
+char lastWord[MAXSTRINGLEN];
 char secondToLastWord[MAXSTRINGLEN];
 
 int main() {
@@ -35,6 +37,7 @@ int main() {
 void init() {
     // set all of the tab counts to 0
     aliasCount = 0;
+    varCount = 0;
 }
 
 void teardown() {
@@ -75,26 +78,20 @@ int cdHome(void) {
 }
 
 int cd(char* path) {
+    int chdirStatus = chdir(path);
 
-    if(chdir(path) == -1) {
+    if(chdirStatus == -1) {
+        int value = errno;
 
-    int value = errno;
-    
-    if (value == ENOENT){
-
-        printf("Error: the file does not exist \n");
+        if (value == ENOENT)
+            printf("Error: the file does not exist \n");
+        else if (value == EACCES)
+            printf("Error: permission is denied for one of the components of the path \n");
+        else if (value == ENOTDIR)
+            printf("Error: A component of the path is not a directory \n");
     }
-    else if (value == EACCES){
-        
-        printf("Error: permission is denied for one of the components of the path \n");
-    }
-    else if (value == ENOTDIR){
 
-        printf("Error: A component of the path is not a directory \n");
-    }
-    return value;
-
-    }
+    return chdirStatus;
 }
 
 int bye(void) {
@@ -114,9 +111,16 @@ void unalias(char* name) {
     removeAlias(name);
 }
 
-/* metacharacters */
-void doubleQuote(char* word) {
-    printf("Double quote found, the string inbetween them is %s", word);
+void ruthSetenv(char* variable, char* word){
+    addVariable(variable, word);
+}
+
+void ruthPrintenv(void){
+    listAllVariables();
+}
+
+void ruthUnsetenv(char* variable){
+    removeVariable(variable);
 }
 
 /* for external commands */
@@ -138,26 +142,21 @@ int runCmdAndFreeStrings(void) {
     else if (subProc == 0) { // if child process
         // execute the command with argv
         // this will only truly exit if there is an error
-        _exit(execvpe(cmd, argv, environ));
+        _exit(execvp(cmd, argv));
     }
     else { // if shell process
         // wait for the forked process to finish
         int status;
         waitpid(subProc, &status, 0);
 
-        if (WIFEXITED(status)){
-
+        if (WIFEXITED(status)) {
             int retVal = WEXITSTATUS(status);
-            if (retVal != 0)
-                            
-                if(retVal == 255) {
+            if (retVal != 0) {
+                if(retVal == 255)
                     printf("Error: command not found \n");
-                }   
-             
-                else {
+                else
                     printf("Error: command returned %i\n", retVal);
-                }
-        // do some smart error handling with status
+            }
         }
     }
 

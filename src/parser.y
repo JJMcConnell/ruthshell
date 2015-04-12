@@ -11,7 +11,6 @@
 
 %union {
     int integer;
-    char* string;
     char* word;
 }
 
@@ -53,7 +52,7 @@ alias:
        |
        ALIAS WORD WORD
        {
-           aliasAdd($2, $3);
+           aliasAdd(secondToLastWord, $3);
        }
        |
        UNALIAS WORD
@@ -80,7 +79,6 @@ envcommands:
            ruthUnsetenv($2);
        }
 
-    
 cd:
        CD
        {

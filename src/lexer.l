@@ -6,14 +6,14 @@
 #include "util.h"
 
 %}
-%%
 
+%%
 bye                        return BYE;
 cd						   return CD; 
-setenv                     moveTokensToYylval(yytext); return SETENV;
-unsetenv                   moveTokensToYylval(yytext); return UNSETENV;
+setenv                     return SETENV;
+unsetenv                   return UNSETENV;
 printenv                   return PRINTENV;
-alias                      moveTokensToYylval(yytext); return ALIAS;
+alias                      return ALIAS;
 [a-zA-Z0-9\/\-\.*_]+       moveTokensToYylval(yytext); return WORD; /*Free this memory*/ 
 \n                         printPrompt(); return NL; /* NL is newline */
 [ \t]+                     ; /* do nothing */

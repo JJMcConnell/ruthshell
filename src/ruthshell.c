@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/types.h>
@@ -9,7 +10,14 @@
 #include "arglist.h"
 #include "y.tab.h"
 
+LinkedList* aliasList;
+
+char strBuffer[MAXSTRINGLEN];
+char secondToLastWord[MAXSTRINGLEN];
+
 int main() {
+    init();
+
     while (1) {
         printPrompt();
         int status = yyparse();
@@ -23,6 +31,15 @@ int main() {
             return 0;
         }
     }
+}
+
+void init() {
+    if (aliasList == NULL)
+        aliasList = createNewLinkedList(DATAPAIR);
+}
+
+void teardown() {
+    freeList(aliasList);
 }
 
 /* need for flex and bison */
@@ -47,21 +64,33 @@ int cd(char* path) {
 }
 
 int bye(void) {
+    teardown();
     return EXITSUCCESS;   
 }
 
-int alias(void) {
-
-        
-
+void alias(void) {
+    walkAndExecute(aliasList, printKeyData);
 }
 
-int aliasAdd(char* name, char* word) {
-    
+void aliasAdd(char* name, char* word) {
+    Data d;
+    d.key = name;
+    d.value = word;
+    printf("got alias: key: %s; value: %s\n", name, word);
+    push(aliasList, &d); 
 }
 
-int unalias(char* name) {
+void unalias(char* name) {
+    // find the data with key name
+    LinkedListNode* cur = aliasList->head;
 
+    while (cur != NULL) {
+        if (strcmp(cur->data.key, name)) {
+            popNode(aliasList, cur);
+            break;
+        }
+        cur = cur->next;
+    }
 }
 
 /* for external commands */

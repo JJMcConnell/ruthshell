@@ -11,7 +11,6 @@
 
 %union {
     int integer;
-    char* string;
     char* word;
 }
 
@@ -51,7 +50,9 @@ alias:
        |
        ALIAS WORD WORD
        {
-           aliasAdd($2, $3);
+           printf("got alias: key: %s; value: %s\n",
+               secondToLastWord, $3);
+           aliasAdd(secondToLastWord, $3);
        }
        |
        UNALIAS WORD
@@ -59,7 +60,6 @@ alias:
            unalias($2);
        }
 
-    
 cd:
        CD
        {

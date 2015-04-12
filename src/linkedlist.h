@@ -3,17 +3,19 @@
 
 /* Enum for choosing data type */
 typedef enum {
-    DATAINT, DATASTRING
+    DATAINT, DATASTRING, DATAPAIR
 } DataType;
 
 /* Support different, but mutually exclusive data types */
-typedef union Data {
+typedef struct Data {
     char* s;
+    char* key;
+    char* value;
     int i;
 } Data;
 
 typedef struct LinkedListNode {
-    union Data data; // can be DataInt or DataString
+    struct Data data; // can be DataInt or DataString
     struct LinkedListNode* next;
     struct LinkedListNode* prev;
 } LinkedListNode;
@@ -29,8 +31,10 @@ void push(LinkedList* l, Data* d);
 
 /* Deallocates the whole list */
 void freeList(LinkedList* l);
-void pop(LinkedList* l, Data* d);
+/* void pop(LinkedList* l, Data* d); */
 void popNode(LinkedList* l, LinkedListNode* n);
 
+/* Walk list, execute func(Data), break if func doesn't return 0 */
+void walkAndExecute(LinkedList* l, int (*func)(Data*));
 
 #endif /* execute_externel_command */

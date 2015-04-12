@@ -14,6 +14,7 @@ LinkedList* createNewLinkedList(DataType dt) {
     return l;
 }
 
+/*
 void pop(LinkedList* l, Data* d) {
     LinkedListNode* cur = l->head;
 
@@ -34,11 +35,16 @@ void pop(LinkedList* l, Data* d) {
         cur = cur->next;
     }
 }
+*/
 
 void popNode(LinkedList* l, LinkedListNode* n) {
-    // free a string if that's the dt
+    // free any of the allocated strings or data
     if (l->dt == DATASTRING)
         free(n->data.s);
+    else if (l->dt == DATAPAIR) {
+        free(n->data.key);
+        free(n->data.value);
+    }
 
     // cut n out of the list
     if (n->prev == NULL) {
@@ -93,6 +99,20 @@ void push(LinkedList* l, Data* d) {
     // copy the data, cur is the new node
     if (l->dt == DATAINT)
         cur->data.i = d->i;
-    else
+    else if (l->dt == DATASTRING)
         cur->data.s = strdup(d->s);
+    else {
+        cur->data.key = strdup(d->key);
+        cur->data.value = strdup(d->value);
+    }
+}
+
+void walkAndExecute(LinkedList* l, int (*func)(Data*)) {
+    LinkedListNode* cur = l->head;
+
+    while (cur != NULL) {
+        if (func(&cur->data) != 0)
+            break;
+        cur = cur->next;
+    }
 }

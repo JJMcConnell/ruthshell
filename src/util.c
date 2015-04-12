@@ -32,6 +32,11 @@ void strCopyToBuffer(char* buffer, char* str) {
 }
 
 void moveTokensToYylval(char* yytext) {
+    // move old yylval to secondToLastWord
+    cleanStringBuffer(secondToLastWord);
+    strCopyToBuffer(secondToLastWord, strBuffer);
+
+    // copy yytext to yylval
     cleanStringBuffer(strBuffer);
     strCopyToBuffer(strBuffer, yytext);
     yylval.word = strBuffer;
@@ -39,4 +44,19 @@ void moveTokensToYylval(char* yytext) {
 
 void cleanStringBuffer(char* buffer) {
     *buffer = '\0';   
+}
+
+int printStringData(Data* d) {
+    printf("%s\n", d->s);
+    return 0; // don't break
+}
+
+int printIntData(Data* d) {
+    printf("%i\n", d->i);
+    return 0; // don't break
+}
+
+int printKeyData(Data* d) {
+    printf("key: %s; value: %s\n", d->key, d->value);
+    return 0; // don't break
 }

@@ -8,13 +8,8 @@
 #define EXITSUCCESS 100
 #define EOLFOUND    0
 
-/* these should be defined on the unix (POSIX) system */
-extern char** environ;
-extern int execvpe(const char *file, char *const argv[],
-        char *const envp[]);
-
 /* lists */
-extern char strBuffer[]; //constness should be different here
+extern char lastWord[];
 
 /* stores second to last WORD token found */
 extern char secondToLastWord[];

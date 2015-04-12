@@ -31,12 +31,12 @@ void printPrompt(void) {
 void moveTokensToYylval(char* yytext) {
     // move old yylval to secondToLastWord
     cleanStringBuffer(secondToLastWord);
-    strcpy(secondToLastWord, strBuffer);
+    strcpy(secondToLastWord, lastWord);
 
     // copy yytext to yylval
-    cleanStringBuffer(strBuffer);
-    strcpy(strBuffer, yytext);
-    yylval.word = strBuffer;
+    cleanStringBuffer(lastWord);
+    strcpy(lastWord, yytext);
+    yylval.word = lastWord;
 }
 
 void cleanStringBuffer(char* buffer) {

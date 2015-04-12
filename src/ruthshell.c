@@ -11,7 +11,7 @@
 #include "arglist.h"
 #include "y.tab.h"
 
-char strBuffer[MAXSTRINGLEN];
+char lastWord[MAXSTRINGLEN];
 char secondToLastWord[MAXSTRINGLEN];
 
 int main() {
@@ -140,26 +140,21 @@ int runCmdAndFreeStrings(void) {
     else if (subProc == 0) { // if child process
         // execute the command with argv
         // this will only truly exit if there is an error
-        _exit(execvpe(cmd, argv, environ));
+        _exit(execvp(cmd, argv));
     }
     else { // if shell process
         // wait for the forked process to finish
         int status;
         waitpid(subProc, &status, 0);
 
-        if (WIFEXITED(status)){
-
+        if (WIFEXITED(status)) {
             int retVal = WEXITSTATUS(status);
-            if (retVal != 0)
-                            
-                if(retVal == 255) {
+            if (retVal != 0) {
+                if(retVal == 255)
                     printf("Error: command not found \n");
-                }   
-             
-                else {
+                else
                     printf("Error: command returned %i\n", retVal);
-                }
-        // do some smart error handling with status
+            }
         }
     }
 

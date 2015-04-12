@@ -4,7 +4,7 @@
 #include "alias.h"
 
 /* some definitions */
-#define MAXSTRINGLEN 256
+#define MAXSTRINGLEN 1024
 #define EXITSUCCESS 100
 #define EOLFOUND    0
 

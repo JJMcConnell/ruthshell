@@ -73,11 +73,19 @@ void alias(void) {
 }
 
 void aliasAdd(char* name, char* word) {
-    Data d;
-    d.key = name;
-    d.value = word;
-    printf("got alias: key: %s; value: %s\n", name, word);
-    push(aliasList, &d); 
+    Data d = { .key = name, .value = word };
+
+    // see if this alias is already in the list
+    LinkedListNode* curEntry = findNode(aliasList, &d);
+    if (curEntry != NULL) {
+        // we actually need new dynamic string copies
+        curEntry->data.key = strdup(name);
+        curEntry->data.value = strdup(word);
+    }
+    else {
+        // this handles the memory for us
+        push(aliasList, &d); 
+    }
 }
 
 void unalias(char* name) {

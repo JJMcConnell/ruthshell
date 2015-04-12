@@ -1,6 +1,8 @@
 #ifndef LINKED_LIST_
 #define LINKED_LIST_
 
+#include <stdbool.h>
+
 /* Enum for choosing data type */
 typedef enum {
     DATAINT, DATASTRING, DATAPAIR
@@ -36,5 +38,9 @@ void popNode(LinkedList* l, LinkedListNode* n);
 
 /* Walk list, execute func(Data), break if func doesn't return 0 */
 void walkAndExecute(LinkedList* l, int (*func)(Data*));
+
+bool dataMatches(Data* d1, Data* d2, DataType t);
+/* Searches for first match in list, or returns NULL */
+LinkedListNode* findNode(LinkedList* l, Data* d);
 
 #endif /* execute_externel_command */

@@ -50,8 +50,6 @@ alias:
        |
        ALIAS WORD WORD
        {
-           printf("got alias: key: %s; value: %s\n",
-               secondToLastWord, $3);
            aliasAdd(secondToLastWord, $3);
        }
        |

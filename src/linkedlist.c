@@ -116,3 +116,28 @@ void walkAndExecute(LinkedList* l, int (*func)(Data*)) {
         cur = cur->next;
     }
 }
+
+bool dataMatches(Data* d1, Data* d2, DataType t) {
+    if (t == DATAINT)
+        return d1->i == d2->i;
+    else if (t == DATASTRING)
+        return strcmp(d1->s, d2->s);
+    else if (t == DATAPAIR)
+        return strcmp(d1->key, d2->key) && strcmp(d1->value, d2->value);
+
+    return false; // this shouldn't happen...
+}
+
+LinkedListNode* findNode(LinkedList* l, Data* d) {
+    LinkedListNode* cur = l->head;
+    
+    while (cur != NULL) {
+        if (dataMatches(&cur->data, d, l->dt))
+            return cur;
+        
+        cur = cur->next;
+    }
+
+
+    return NULL;
+}

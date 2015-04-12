@@ -16,7 +16,8 @@
 
 }
 
-%token <word> WORD
+/* STRING is a literal, with unescaped chars */
+%token <word> WORD STRING
 %token <word> BUILTIN 
 %token <word> DOUBLE_QUOTE
 %token <number> CD NL BYE 
@@ -28,11 +29,6 @@ commands:
 
 command:
        NL
-       |
-       DOUBLE_QUOTE
-       {
-            doubleQuote($1);
-       }
        |
        cmd.builtin NL
        |
@@ -81,9 +77,18 @@ args:
             pushArg($1);
        }
        |
+       STRING
+       {
+            pushArg($1);
+       }
+       |
        args WORD
        {
            pushArg($2);
        }
-
+       |
+       args STRING
+       {
+           pushArg($2);
+       }
 %%

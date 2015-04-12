@@ -31,6 +31,20 @@ void strCopyToBuffer(char* buffer, char* str) {
     while (*str++ != '\0');
 }
 
+void processStringLiteral(char* literal, char* buffer) {
+    // trim off initial left quotes
+    ++literal;
+
+    while (*literal != '\0') {
+        if (*literal == '\\')
+            ++literal;
+        *buffer++ = *literal++;
+    }
+
+    // trim final quotes
+    *(--buffer) = '\0';
+}
+
 void moveTokensToYylval(char* yytext) {
     cleanStringBuffer(strBuffer);
     strCopyToBuffer(strBuffer, yytext);

@@ -54,3 +54,18 @@ void listAllVariables(void) {
     for (i = 0; i < varCount; ++i)
         printf("%s = %s\n", vartab[i].var, vartab[i].val);
 }
+
+char* expand(char* var){
+    
+    size_t i = 0;
+    
+    for (i = 0; i < varCount; ++i) {
+        if(streq(var, vartab[i].var)) {
+            return vartab[i].val;
+        }
+       
+    }
+    return NULL;
+}
+
+

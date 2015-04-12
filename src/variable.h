@@ -18,5 +18,6 @@ void addVariable(char* var, char* val);
 void removeVariable(char* var);
 void moveVariableLeft(size_t i);
 void listAllVariables(void);
+char* expand(char* var);
 
 #endif /* VARIABLE_H_ */

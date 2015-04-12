@@ -6,6 +6,7 @@
 #include "ruthshell.h"
 #include "util.h"
 #include "arglist.h"
+#include "variable.h"
 %}
 
 
@@ -18,7 +19,7 @@
 /* STRING is a literal, with unescaped chars */
 %token <word> WORD STRING
 %token <word> BUILTIN
-%token <number> CD NL BYE ALIAS UNALIAS GT LT SETENV PRINTENV UNSETENV AMP
+%token <number> CD NL BYE ALIAS UNALIAS GT LT SETENV PRINTENV UNSETENV AMP EVESTART EVEEND
 
 %%
 commands:
@@ -79,6 +80,12 @@ alias:
        }
 
 envcommands:
+       SETENV WORD STRING
+       {
+           
+           ruthSetenv(secondToLastWord, $3);
+       }
+       |
        SETENV WORD WORD
        {
            
@@ -145,6 +152,18 @@ args:
        args STRING
        {
            pushArg($2);
+       }
+       |
+       EVESTART WORD EVEEND 
+       {
+           char* sub = expand($2);
+            
+           if(sub == NULL ) { 
+                yyerror("Variable does not exist"); 
+           }
+    
+           else { pushArg(sub); } 
+               
        }
 
 file:

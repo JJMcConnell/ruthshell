@@ -22,6 +22,8 @@ unalias                    moveTokensToYylval(yytext); return UNALIAS;
 \n                         printPrompt(); return NL; /* NL is newline */
 [ \t]+                     ; /* do nothing */
 
+\$\{                        return EVESTART;
+\}                         return EVEEND; 
 
 \".*\" {
     char buf[MAXSTRINGLEN];

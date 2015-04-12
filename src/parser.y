@@ -35,7 +35,13 @@ command:
            runCmdAndFreeStrings();
        }
        |
+       cmd.external AMP NL
+       {
+           runCmdAndFreeStringsBG();
+       }
+       |
        concreteCommands GT file NL
+
        /*
        cmd.builtin GT file NL { printf("cmd.builtin GT file NL\n"); }
        |

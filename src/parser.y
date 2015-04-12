@@ -12,11 +12,13 @@
 %union {
     int integer;
     char* word;
+
 }
 
-%token <word> WORD
+/* STRING is a literal, with unescaped chars */
+%token <word> WORD STRING
 %token <word> BUILTIN
-%token <number> CD NL DOUBLE_QUOTE BYE ALIAS UNALIAS
+%token <number> CD NL BYE ALIAS UNALIAS
 
 %%
 
@@ -25,8 +27,6 @@ commands:
 
 command:
        NL
-       |
-       DOUBLE_QUOTE WORD DOUBLE_QUOTE
        |
        cmd.builtin NL
        |
@@ -93,9 +93,18 @@ args:
             pushArg($1);
        }
        |
+       STRING
+       {
+            pushArg($1);
+       }
+       |
        args WORD
        {
            pushArg($2);
        }
-
+       |
+       args STRING
+       {
+           pushArg($2);
+       }
 %%

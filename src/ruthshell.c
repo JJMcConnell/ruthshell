@@ -66,6 +66,8 @@ int yywrap() {
 } 
 
 
+
+
 /*** Shell Operations ***/
 /* builtins */
 int cdHome(void) {
@@ -110,6 +112,11 @@ void aliasAdd(char* name, char* word) {
 
 void unalias(char* name) {
     removeAlias(name);
+}
+
+/* metacharacters */
+void doubleQuote(char* word) {
+    printf("Double quote found, the string inbetween them is %s", word);
 }
 
 /* for external commands */

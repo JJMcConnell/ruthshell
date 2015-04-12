@@ -36,6 +36,10 @@ void alias(void);
 void aliasAdd(char* name, char* word);
 void unalias(char* name);
 
+/* metacharacters */
+
+void doubleQuote(char* word);
+
 /* external commands */
 int runCmdAndFreeStrings(void);
 

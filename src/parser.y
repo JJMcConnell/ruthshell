@@ -160,6 +160,7 @@ args:
             
            if(sub == NULL ) { 
                 yyerror("Variable does not exist"); 
+                return VARNOTFOUND;
            }
     
            else { pushArg(sub); } 

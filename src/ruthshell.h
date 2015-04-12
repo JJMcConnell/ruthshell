@@ -5,6 +5,7 @@
 #define MAXSTRINGLEN 1024
 #define EXITSUCCESS 100
 #define EOLFOUND    0
+#define VARNOTFOUND 101
 
 /* lists */
 extern char lastWord[];

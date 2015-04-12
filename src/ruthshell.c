@@ -38,6 +38,7 @@ void init() {
     // set all of the tab counts to 0
     aliasCount = 0;
     varCount = 0;
+    savedStdout = 1;
 }
 
 void teardown() {

@@ -8,6 +8,10 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <fcntl.h>
+#include <sys/stat.h>
+
+int savedStdout;
 
 /* utils */
 void printPrompt(void) {
@@ -94,4 +98,30 @@ bool handledCommandWithAlias(char* cmd) {
         }
     }
     return false; // no alias, unhandled
+}
+
+/* IO Redirection */
+void redirectStdoutFile(char* fname) {
+    int file = open(fname, O_WRONLY | O_CREAT, 0666);
+    savedStdout = dup(1);
+    close(1);
+    dup(file);
+    close(file);
+}
+
+void redirectStderrFile(char* fname) {
+    int file = open(fname, O_WRONLY | O_CREAT, 0666);
+    savedStdout = dup(1);
+    close(2);
+    dup(file);
+    close(file);
+}
+
+void redirectBothFile(char* fname) {
+    dup2(1, 2);
+    redirectStdoutFile(fname);
+}
+
+void resetRedirects(void) {
+    dup2(savedStdout, 1);      
 }

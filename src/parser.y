@@ -20,6 +20,8 @@
 %token <word> BUILTIN
 %token <number> CD NL BYE ALIAS UNALIAS GT LT SETENV PRINTENV UNSETENV
 
+%type <word> file
+
 %%
 commands:
        |
@@ -36,11 +38,12 @@ command:
        }
        |
        concreteCommands GT file NL
-       /*
-       cmd.builtin GT file NL { printf("cmd.builtin GT file NL\n"); }
-       |
-       cmd.external GT file NL { printf("cmd.external GT file NL\n"); }
-       */
+       {
+           //printf("redirecting to stdout\n");
+           redirectStdoutFile($3);
+           runCmdAndFreeStrings();
+           resetRedirects();
+       }
 
 concreteCommands:
        cmd.builtin
@@ -144,12 +147,12 @@ args:
 file:
        WORD
        {
-           printf("redirecting to %s\n", $1);
+           $$ = $1;
        }
        |
        STRING
        {
-           printf("redirecting to %s\n", $1);
+           $$ = $1;
        }
 
 %%

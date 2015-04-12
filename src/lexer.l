@@ -6,8 +6,8 @@
 #include "util.h"
 
 %}
-%%
 
+%%
 bye                        return BYE;
 cd						   return CD; 
 alias                      return ALIAS;

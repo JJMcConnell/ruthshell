@@ -1,6 +1,8 @@
 #include "util.h"
 #include "ruthshell.h"
 #include "y.tab.h"
+#include "lex.yy.h"
+#include "arglist.h"
 
 #include <string.h>
 #include <stdio.h>
@@ -57,6 +59,42 @@ int printIntData(Data* d) {
 }
 
 int printKeyData(Data* d) {
-    printf("key: %s; value: %s\n", d->key, d->value);
+    printf("%s\n", d->key);
     return 0; // don't break
+}
+
+bool handledCommandWithAlias(char* cmd) {
+    LinkedListNode* cur = aliasList->head;
+
+    while (cur != NULL) {
+        //printf("cur = %p\n", cur);
+        if (streq(cur->data.key, cmd)) {
+            // now feed the value and arguments through lex
+            char buf[MAXSTRINGLEN];
+            buf[0] = '\0';
+            strcat(buf, cur->data.value);
+
+            char** cur = argv + 1; // skip argv[0] (invocation)
+            while (*cur != NULL) {
+                strcat(buf, " ");
+                strcat(buf, *cur++);
+            }
+            strcat(buf, "\n"); // commands end with newline keypress
+
+            // now clear out the old args
+            popArgsFreeStrings();
+
+            YY_BUFFER_STATE strScanner = yy_scan_string(buf);
+            yyparse();
+
+            YY_BUFFER_STATE stdinScanner = yy_create_buffer(stdin, YY_BUF_SIZE);
+            yy_switch_to_buffer(stdinScanner);
+            yy_delete_buffer(strScanner);
+
+            return true; // yes, handled
+        }
+
+        cur = cur->next;
+    }
+    return false; // no alias, unhandled
 }

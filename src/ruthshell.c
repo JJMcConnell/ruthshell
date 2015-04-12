@@ -44,11 +44,25 @@ void teardown() {
 
 /* need for flex and bison */
 void yyerror(const char *str) {
+    fprintf(stderr, "\nargv:\n");
+    char** cur = argv;
+ 
+    while (*cur != NULL) {
+        fprintf(stderr, "%s ", *cur++);
+    }
+    fprintf(stderr, "\n");
+
     printf("last command: %s\n", yylval.word);
     fprintf(stderr, "error: %s\n", str);
+
+    // on syntax error, just in case, clear out argv
+    if (streq("syntax error", str))
+        popArgsFreeStrings();
+    
 }
 
 int yywrap() {
+    // scan forever
     return 1;
 } 
 
@@ -93,7 +107,7 @@ void unalias(char* name) {
     LinkedListNode* cur = aliasList->head;
 
     while (cur != NULL) {
-        if (strcmp(cur->data.key, name)) {
+        if (streq(cur->data.key, name)) {
             popNode(aliasList, cur);
             break;
         }
@@ -103,6 +117,12 @@ void unalias(char* name) {
 
 /* for external commands */
 int runCmdAndFreeStrings(void) {
+    if (handledCommandWithAlias(cmd)) {
+        // if already handled, return
+        popArgsFreeStrings();
+        return 0;
+    }
+
     // first create fork for new process
     pid_t subProc = fork();
 

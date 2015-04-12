@@ -26,7 +26,7 @@ void pop(LinkedList* l, Data* d) {
             break;
         }
         else if (l->dt == DATASTRING &&
-                strcmp(cur->data.s, d->s)) {
+                streq(cur->data.s, d->s)) {
             popNode(l, cur);
             break;
         }
@@ -121,9 +121,9 @@ bool dataMatches(Data* d1, Data* d2, DataType t) {
     if (t == DATAINT)
         return d1->i == d2->i;
     else if (t == DATASTRING)
-        return strcmp(d1->s, d2->s);
-    else if (t == DATAPAIR)
-        return strcmp(d1->key, d2->key) && strcmp(d1->value, d2->value);
+        return streq(d1->s, d2->s);
+    else if (t == DATAPAIR) // just try and match the key
+        return streq(d1->key, d2->key);
 
     return false; // this shouldn't happen...
 }

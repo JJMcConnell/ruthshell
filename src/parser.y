@@ -64,7 +64,7 @@ envcommands:
        SETENV WORD WORD
        {
            
-           ruthSetenv($2, $3);
+           ruthSetenv(secondToLastWord, $3);
        }
        |
        PRINTENV

@@ -1,8 +1,6 @@
 #ifndef RUTH_SHELL_H
 #define RUTH_SHELL_H
 
-#include "alias.h"
-
 /* some definitions */
 #define MAXSTRINGLEN 1024
 #define EXITSUCCESS 100

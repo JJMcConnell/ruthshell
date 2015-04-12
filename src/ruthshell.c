@@ -8,6 +8,8 @@
 
 #include "ruthshell.h"
 #include "util.h"
+#include "alias.h"
+#include "variable.h"
 #include "arglist.h"
 #include "y.tab.h"
 
@@ -35,6 +37,7 @@ int main() {
 void init() {
     // set all of the tab counts to 0
     aliasCount = 0;
+    varCount = 0;
 }
 
 void teardown() {
@@ -109,15 +112,15 @@ void unalias(char* name) {
 }
 
 void ruthSetenv(char* variable, char* word){
-    
+    addVariable(variable, word);
 }
 
 void ruthPrintenv(void){
-
+    listAllVariables();
 }
 
 void ruthUnsetenv(char* variable){
-
+    removeVariable(variable);
 }
 
 /* for external commands */

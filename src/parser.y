@@ -21,9 +21,9 @@
 %token <number> CD NL BYE ALIAS UNALIAS GT LT
 
 %%
-
 commands:
-       | commands command
+       |
+       commands command
 
 command:
        NL
@@ -34,6 +34,18 @@ command:
        {
            runCmdAndFreeStrings();
        }
+       |
+       concreteCommands GT file NL
+       /*
+       cmd.builtin GT file NL { printf("cmd.builtin GT file NL\n"); }
+       |
+       cmd.external GT file NL { printf("cmd.external GT file NL\n"); }
+       */
+
+concreteCommands:
+       cmd.builtin
+       |
+       cmd.external
 
 cmd.builtin:
        cd
@@ -107,4 +119,16 @@ args:
        {
            pushArg($2);
        }
+
+file:
+       WORD
+       {
+           printf("redirecting to %s\n", $1);
+       }
+       |
+       STRING
+       {
+           printf("redirecting to %s\n", $1);
+       }
+
 %%

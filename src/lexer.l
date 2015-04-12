@@ -11,8 +11,8 @@
 bye                        return BYE;
 cd						   return CD; 
 alias                      return ALIAS;
->                          return GT;
-<                          return LT;
+\>                         return GT;
+\<                         return LT;
 unalias                    moveTokensToYylval(yytext); return UNALIAS;
 [a-zA-Z0-9\/\-\.*_]+       moveTokensToYylval(yytext); return WORD; /*Free this memory*/ 
 \n                         printPrompt(); return NL; /* NL is newline */

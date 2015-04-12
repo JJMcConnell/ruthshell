@@ -17,6 +17,11 @@ alias                      return ALIAS;
 [a-zA-Z0-9\/\-\.*_]+       moveTokensToYylval(yytext); return WORD; /*Free this memory*/ 
 \n                         printPrompt(); return NL; /* NL is newline */
 [ \t]+                     ; /* do nothing */
-\"					       return DOUBLE_QUOTE;
+\".*\" {
+    char buf[MAXSTRINGLEN];
+    processStringLiteral(yytext, buf);
+    moveTokensToYylval(buf);
+    return STRING;
+}
 
 %%

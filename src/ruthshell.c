@@ -66,6 +66,8 @@ int yywrap() {
 } 
 
 
+
+
 /*** Shell Operations ***/
 /* builtins */
 int cdHome(void) {
@@ -117,9 +119,6 @@ void ruthPrintenv(void){
 void ruthUnsetenv(char* variable){
 
 }
-
-
-
 
 /* for external commands */
 int runCmdAndFreeStrings(void) {

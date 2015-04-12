@@ -10,6 +10,9 @@
 
 /*** Utils ***/
 void printPrompt(void);
+void strCopyToBuffer(char* const buffer, char* const str);
+/* puts new string into the given char buffer */
+void processStringLiteral(char* literal, char* buffer);
 
 /* should be implemented in any POSIX system */
 extern char* strdup(const char* s);

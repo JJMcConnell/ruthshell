@@ -163,3 +163,44 @@ int runCmdAndFreeStrings(void) {
     popArgsFreeStrings(); // free argv
     return 0;
 }
+
+/* for external commands */
+int runCmdAndFreeStringsBG(void) {
+    if (handledCommandWithAlias(cmd)) {
+        // if already handled, return
+        popArgsFreeStrings();
+        return 0;
+    }
+
+    // first create fork for new process
+    pid_t subProc = fork();
+
+    if (subProc == -1) { // forking error!
+        /* TODO: implement some better error handling with return vals */
+        printf("Error: could not fork\n");
+        return -1;
+    }
+    else if (subProc == 0) { // if child process
+        // execute the command with argv
+        // this will only truly exit if there is an error
+        _exit(execvp(cmd, argv));
+    }
+    /*else { // if shell process
+        // wait for the forked process to finish
+        int status;
+        waitpid(subProc, &status, 0);
+
+        if (WIFEXITED(status)) {
+            int retVal = WEXITSTATUS(status);
+            if (retVal != 0) {
+                if(retVal == 255)
+                    printf("Error: command not found \n");
+                else
+                    printf("Error: command returned %i\n", retVal);
+            }
+        }
+    } */
+
+    popArgsFreeStrings(); // free argv
+    return 0;
+}

@@ -18,12 +18,12 @@
 /* STRING is a literal, with unescaped chars */
 %token <word> WORD STRING
 %token <word> BUILTIN
-%token <number> CD NL BYE ALIAS UNALIAS SETENV PRINTENV UNSETENV
+%token <number> CD NL BYE ALIAS UNALIAS GT LT SETENV PRINTENV UNSETENV AMP
 
 %%
-
 commands:
-       | commands command
+       |
+       commands command
 
 command:
        NL
@@ -34,6 +34,24 @@ command:
        {
            runCmdAndFreeStrings();
        }
+       |
+       cmd.external AMP NL
+       {
+           runCmdAndFreeStringsBG();
+       }
+       |
+       concreteCommands GT file NL
+
+       /*
+       cmd.builtin GT file NL { printf("cmd.builtin GT file NL\n"); }
+       |
+       cmd.external GT file NL { printf("cmd.external GT file NL\n"); }
+       */
+
+concreteCommands:
+       cmd.builtin
+       |
+       cmd.external
 
 cmd.builtin:
        cd
@@ -128,4 +146,16 @@ args:
        {
            pushArg($2);
        }
+
+file:
+       WORD
+       {
+           printf("redirecting to %s\n", $1);
+       }
+       |
+       STRING
+       {
+           printf("redirecting to %s\n", $1);
+       }
+
 %%

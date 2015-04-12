@@ -34,7 +34,6 @@ void ruthUnsetenv(char* variable);
 
 /* metacharacters */
 
-void doubleQuote(char* word);
 
 /* external commands */
 int runCmdAndFreeStrings(void);

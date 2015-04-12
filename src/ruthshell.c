@@ -73,26 +73,20 @@ int cdHome(void) {
 }
 
 int cd(char* path) {
+    int chdirStatus = chdir(path);
 
-    if(chdir(path) == -1) {
+    if(chdirStatus == -1) {
+        int value = errno;
 
-    int value = errno;
-    
-    if (value == ENOENT){
-
-        printf("Error: the file does not exist \n");
+        if (value == ENOENT)
+            printf("Error: the file does not exist \n");
+        else if (value == EACCES)
+            printf("Error: permission is denied for one of the components of the path \n");
+        else if (value == ENOTDIR)
+            printf("Error: A component of the path is not a directory \n");
     }
-    else if (value == EACCES){
-        
-        printf("Error: permission is denied for one of the components of the path \n");
-    }
-    else if (value == ENOTDIR){
 
-        printf("Error: A component of the path is not a directory \n");
-    }
-    return value;
-
-    }
+    return chdirStatus;
 }
 
 int bye(void) {

@@ -32,9 +32,9 @@ void teardown(); // deallocate those from above
 int cdHome(void);
 int cd(char* path);
 int bye(void);
-int alias(void);
-int aliasAdd(char* name, char* word);
-int unalias(char* name);
+void alias(void);
+void aliasAdd(char* name, char* word);
+void unalias(char* name);
 void ruthSetenv(char* variable, char* word);
 void ruthPrintenv(void);
 void ruthUnsetenv(char* variable);

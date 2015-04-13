@@ -57,7 +57,7 @@ void teardown() {
 
 /* need for flex and bison */
 void yyerror(const char *str) {
-    fprintf(stderr, "\nargv:\n");
+   /* fprintf(stderr, "\nargv:\n");
     char** cur = argv;
  
     while (*cur != NULL) {
@@ -66,7 +66,10 @@ void yyerror(const char *str) {
     fprintf(stderr, "\n");
 
     printf("last command: %s\n", yylval.word);
+*/
     fprintf(stderr, "error: %s\n", str);
+
+    
 
     // on syntax error, just in case, clear out argv
     if (streq("syntax error", str))
@@ -95,11 +98,11 @@ int cd(char* path) {
         int value = errno;
 
         if (value == ENOENT)
-            printf("Error: the file does not exist \n");
+            fprintf(stderr, "Error: the file does not exist \n");
         else if (value == EACCES)
-            printf("Error: permission is denied for one of the components of the path \n");
+            fprintf(stderr, "Error: permission is denied for one of the components of the path \n");
         else if (value == ENOTDIR)
-            printf("Error: A component of the path is not a directory \n");
+            fprintf(stderr, "Error: A component of the path is not a directory \n");
     }
 
     return chdirStatus;
@@ -147,7 +150,7 @@ int runCmdAndFreeStrings(void) {
 
     if (subProc == -1) { // forking error!
         /* TODO: implement some better error handling with return vals */
-        printf("Error: could not fork\n");
+        fprintf(stderr, "Error: could not fork\n");
         return -1;
     }
     else if (subProc == 0) { // if child process
@@ -164,9 +167,9 @@ int runCmdAndFreeStrings(void) {
             int retVal = WEXITSTATUS(status);
             if (retVal != 0) {
                 if(retVal == 255)
-                    printf("Error: command not found \n");
+                    fprintf(stderr, "Error: command not found \n");
                 else
-                    printf("Error: command returned %i\n", retVal);
+                    fprintf(stderr, "Error: command returned %i\n", retVal);
             }
         }
     }
@@ -188,7 +191,7 @@ int runCmdAndFreeStringsBG(void) {
 
     if (subProc == -1) { // forking error!
         /* TODO: implement some better error handling with return vals */
-        printf("Error: could not fork\n");
+        fprintf(stderr, "Error: could not fork\n");
         return -1;
     }
     else if (subProc == 0) { // if child process

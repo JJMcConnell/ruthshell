@@ -19,7 +19,7 @@ To Run A Script
 
 Not Implemented - 
     -Metacharacters:
-        -Piping 
+        -Piping (|) 
     -Wildcard Matching
     -Extra credit
         -Tilde Expansion

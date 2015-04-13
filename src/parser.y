@@ -21,7 +21,7 @@
 %token <word> WORD STRING
 %token <word> BUILTIN
 %token <number> CD NL BYE ALIAS UNALIAS GT LT SETENV PRINTENV UNSETENV AMP EVESTART EVEEND
-%token <number> GTGT LTLT TWOGT TWOGTAND
+%token <number> GTGT LTLT TWOGT TWOGTAND PIPE
 %type <word> file
 
 %%
@@ -78,6 +78,11 @@ command:
            redirectStdinFile($3, O_RDONLY);
            runCmdAndFreeStrings();
            resetStdin();
+       }
+       |
+       concreteCommands PIPE concreteCommands
+       {
+           printf("pipe the two!\n");
        }
 
 concreteCommands:

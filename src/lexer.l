@@ -20,6 +20,7 @@ alias                      return ALIAS;
 2\>\&                      return TWOGTAND;
 \>\>                       return GTGT;
 \<                         return LT;
+\|                         return PIPE;
 unalias                    moveTokensToYylval(yytext); return UNALIAS;
 [a-zA-Z0-9\/\-\.*_]+       moveTokensToYylval(yytext); return WORD; /*Free this memory*/ 
 \n                         printPrompt(); return NL; /* NL is newline */

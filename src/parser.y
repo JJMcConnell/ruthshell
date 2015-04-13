@@ -110,6 +110,11 @@ alias:
            aliasAdd(secondToLastWord, $3);
        }
        |
+       ALIAS WORD STRING
+       {
+           aliasAdd(secondToLastWord, $3);
+       }
+       |
        UNALIAS WORD
        {
            unalias($2);

@@ -12,6 +12,7 @@
 #include <fcntl.h>
 
 int savedStdout;
+int savedStderr;
 
 /* utils */
 void printPrompt(void) {
@@ -124,5 +125,6 @@ void redirectBothFile(char* fname, int mode) {
 
 void resetRedirects(void) {
     dup2(savedStdout, 1);      
+    dup2(savedStderr, 1);      
     close(savedStdout);
 }

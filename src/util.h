@@ -9,6 +9,7 @@
 #define streq(s1, s2) strcmp(s1, s2) == 0
 
 extern int savedStdout;
+extern int savedStderr;
 
 /*** Utils ***/
 void printPrompt(void);

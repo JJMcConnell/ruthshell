@@ -39,6 +39,7 @@ void init() {
     aliasCount = 0;
     varCount = 0;
     savedStdout = 1;
+    savedStderr = 2;
 }
 
 void teardown() {

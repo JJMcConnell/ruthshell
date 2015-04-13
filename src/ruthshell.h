@@ -7,11 +7,18 @@
 #define EOLFOUND    0
 #define VARNOTFOUND 101
 
+#include <stdbool.h>
+
 /* lists */
 extern char lastWord[];
 
 /* stores second to last WORD token found */
 extern char secondToLastWord[];
+
+/* stores filde for the right side of the pipe */
+extern int fdRight;
+
+extern bool interactive;
 
 /* needed for bison/flex */
 void yyerror(const char *str);
@@ -42,5 +49,7 @@ void signal_handler(int signo);
 
 /* external commands */
 int runCmdAndFreeStrings(void);
+int runPipedCmdAndFreeStringsLeft(void);
+int runPipedCmdAndFreeStringsRight(void);
 
 #endif /* RUTH_SHELL_H */

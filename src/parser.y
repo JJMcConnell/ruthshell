@@ -21,7 +21,7 @@
 %token <word> WORD STRING
 %token <word> BUILTIN
 %token <number> CD NL BYE ALIAS UNALIAS GT LT SETENV PRINTENV UNSETENV AMP EVESTART EVEEND
-%token <number> GTGT LTLT TWOGT TWOGTAND
+%token <number> GTGT LTLT TWOGT TWOGTAND PIPE
 %type <word> file
 
 %%
@@ -37,6 +37,11 @@ command:
        cmd.external NL
        {
            runCmdAndFreeStrings();
+       }
+       |
+       concreteCommands PIPE command
+       {
+            runPipedCmdAndFreeStringsLeft();
        }
        |
        cmd.external AMP NL

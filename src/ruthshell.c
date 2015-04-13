@@ -16,6 +16,8 @@
 
 char lastWord[MAXSTRINGLEN];
 char secondToLastWord[MAXSTRINGLEN];
+int fdRight;
+bool interactive;
 
 int main() {
     init();
@@ -49,6 +51,7 @@ void init() {
     savedStdout = STDOUT_FILENO;
     savedStderr = STDERR_FILENO;
     savedStdin = STDIN_FILENO;
+    interactive = isatty(STDIN_FILENO) && isatty(STDOUT_FILENO);
 }
 
 void teardown() {
@@ -185,8 +188,7 @@ int runCmdAndFreeStringsBG(void) {
         popArgsFreeStrings();
         return 0;
     }
-
-    // first create fork for new process
+// first create fork for new process
     pid_t subProc = fork();
 
     if (subProc == -1) { // forking error!
@@ -225,4 +227,96 @@ void signal_handler(int signo) {
         //printf("recieved SIGINT\n");        
     }
     
+}
+
+int runPipedCmdAndFreeStringsLeft(void) {
+    int filedes[2];
+    pipe(filedes);
+
+    fdRight = filedes[0];
+
+    if (handledCommandWithAlias(cmd)) {
+        // if already handled, return
+        popArgsFreeStrings();
+        return 0;
+    }
+
+    // first create fork for new process
+    pid_t subProc = fork();
+
+    if (subProc == -1) { // forking error!
+        /* TODO: implement some better error handling with return vals */
+        printf("Error: could not fork\n");
+        return -1;
+    }
+    else if (subProc == 0) { // if child process
+        // redirect to pipe
+        dup2(filedes[1], STDOUT_FILENO);
+    
+        // execute the command with argv
+        // this will only truly exit if there is an error
+        _exit(execvp(cmd, argv));
+    }
+    else { // if shell process
+        // wait for the forked process to finish
+        int status;
+        waitpid(subProc, &status, 0);
+
+        if (WIFEXITED(status)) {
+            int retVal = WEXITSTATUS(status);
+            if (retVal != 0) {
+                if(retVal == 255)
+                    printf("Error: command not found \n");
+                else
+                    printf("Error: command returned %i\n", retVal);
+            }
+        }
+    }
+
+    popArgsFreeStrings();
+
+    return 0;
+}
+
+int runPipedCmdAndFreeStringsRight(void) {
+    if (handledCommandWithAlias(cmd)) {
+        // if already handled, return
+        popArgsFreeStrings();
+        return 0;
+    }
+
+    // first create fork for new process
+    pid_t subProc = fork();
+
+    if (subProc == -1) { // forking error!
+        /* TODO: implement some better error handling with return vals */
+        printf("Error: could not fork\n");
+        return -1;
+    }
+    else if (subProc == 0) { // if child process
+        // redirect to pipe
+        dup2(fdRight, STDIN_FILENO);
+    
+        // execute the command with argv
+        // this will only truly exit if there is an error
+        _exit(execvp(cmd, argv));
+    }
+    else { // if shell process
+        // wait for the forked process to finish
+        int status;
+        waitpid(subProc, &status, 0);
+
+        if (WIFEXITED(status)) {
+            int retVal = WEXITSTATUS(status);
+            if (retVal != 0) {
+                if(retVal == 255)
+                    printf("Error: command not found \n");
+                else
+                    printf("Error: command returned %i\n", retVal);
+            }
+        }
+    }
+
+    popArgsFreeStrings();
+    return 0;
 }

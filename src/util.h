@@ -8,6 +8,10 @@
 /* inline functions */
 #define streq(s1, s2) strcmp(s1, s2) == 0
 
+extern int savedStdout;
+extern int savedStderr;
+extern int savedStdin;
+
 /*** Utils ***/
 void printPrompt(void);
 void strCopyToBuffer(char* const buffer, char* const str);
@@ -28,5 +32,14 @@ void cleanStringBuffer(char* buffer);
  * no alias for the command), returns false.
  */
 bool handledCommandWithAlias(char* cmd);
+
+/* for redirecting IO */
+void redirectStdoutFile(char* fname, int mode );
+void redirectStderrFile(char* fname, int mode);
+void redirectStdinFile(char* fname, int mode);
+void redirectStderrStdout(void);
+void resetStdout(void);
+void resetStderr(void);
+void resetStdin(void);
 
 #endif /* UTIL_H_ */

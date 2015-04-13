@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <fcntl.h>
 
 #include "ruthshell.h"
 #include "util.h"
@@ -20,6 +21,8 @@
 %token <word> WORD STRING
 %token <word> BUILTIN
 %token <number> CD NL BYE ALIAS UNALIAS GT LT SETENV PRINTENV UNSETENV AMP EVESTART EVEEND
+%token <number> GTGT LTLT TWOGT TWOGTAND
+%type <word> file
 
 %%
 commands:
@@ -42,12 +45,40 @@ command:
        }
        |
        concreteCommands GT file NL
-
-       /*
-       cmd.builtin GT file NL { printf("cmd.builtin GT file NL\n"); }
+       {
+           redirectStdoutFile($3, O_RDWR | O_CREAT | O_TRUNC);
+           runCmdAndFreeStrings();
+           resetStdout();
+       }
        |
-       cmd.external GT file NL { printf("cmd.external GT file NL\n"); }
-       */
+       concreteCommands GTGT file NL
+       {
+           redirectStdoutFile($3, O_RDWR | O_CREAT | O_APPEND);
+           runCmdAndFreeStrings();
+           resetStdout();
+       }
+       |
+       concreteCommands TWOGT file NL
+       {
+           redirectStderrFile($3, O_RDWR | O_CREAT | O_APPEND);
+           runCmdAndFreeStrings();
+           resetStderr();
+       }
+       |
+       concreteCommands TWOGTAND file NL
+       {
+           redirectStderrStdout();
+           runCmdAndFreeStrings();
+           resetStdout();
+           resetStderr();
+       }
+       |
+       concreteCommands LT file
+       {
+           redirectStdinFile($3, O_RDONLY);
+           runCmdAndFreeStrings();
+           resetStdin();
+       }
 
 concreteCommands:
        cmd.builtin
@@ -170,12 +201,12 @@ args:
 file:
        WORD
        {
-           printf("redirecting to %s\n", $1);
+           $$ = $1;
        }
        |
        STRING
        {
-           printf("redirecting to %s\n", $1);
+           $$ = $1;
        }
 
 %%

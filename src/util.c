@@ -8,6 +8,12 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+
+int savedStdout;
+int savedStderr;
+int savedStdin;
 
 /* utils */
 void printPrompt(void) {
@@ -94,4 +100,48 @@ bool handledCommandWithAlias(char* cmd) {
         }
     }
     return false; // no alias, unhandled
+}
+
+/* IO Redirection */
+void redirectStdoutFile(char* fname, int mode) {
+    int file = open(fname, mode, 0666);
+    savedStdout = dup(STDOUT_FILENO);
+    close(STDOUT_FILENO);
+    dup2(file, STDOUT_FILENO);
+    close(file);
+}
+
+void redirectStderrFile(char* fname, int mode) {
+    int file = open(fname, mode, 0666);
+    savedStderr = dup(STDERR_FILENO);
+    close(STDERR_FILENO);
+    dup2(file, STDERR_FILENO);
+    close(file);
+}
+
+void redirectStderrStdout(void) {
+    dup2(STDOUT_FILENO, STDERR_FILENO);
+}
+
+void redirectStdinFile(char* fname, int mode) {
+    int file = open(fname, mode, 0666);
+    savedStdin = dup(STDIN_FILENO);
+    close(STDIN_FILENO);
+    dup2(file, STDIN_FILENO);
+    close(file);
+}
+
+void resetStdout(void) {
+    dup2(savedStdout, STDOUT_FILENO);      
+    close(savedStdout);
+}
+
+void resetStderr(void) {
+    dup2(savedStderr, STDERR_FILENO);      
+    close(savedStderr);
+}
+
+void resetStdin(void) {
+    dup2(savedStdin, STDIN_FILENO);      
+    close(savedStdin);
 }

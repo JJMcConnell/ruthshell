@@ -16,6 +16,9 @@ printenv                   return PRINTENV;
 \&                         return AMP;
 alias                      return ALIAS;
 \>                         return GT;
+2\>                        return TWOGT;
+2\>\&                      return TWOGTAND;
+\>\>                       return GTGT;
 \<                         return LT;
 unalias                    moveTokensToYylval(yytext); return UNALIAS;
 [a-zA-Z0-9\/\-\.*_]+       moveTokensToYylval(yytext); return WORD; /*Free this memory*/ 

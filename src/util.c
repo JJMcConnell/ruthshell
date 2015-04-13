@@ -13,6 +13,7 @@
 
 int savedStdout;
 int savedStderr;
+int savedStdin;
 
 /* utils */
 void printPrompt(void) {
@@ -111,7 +112,6 @@ void redirectStdoutFile(char* fname, int mode) {
 }
 
 void redirectStderrFile(char* fname, int mode) {
-    printf("REDIRECT STDERR FILE\n");
     int file = open(fname, mode, 0666);
     savedStderr = dup(STDERR_FILENO);
     close(STDERR_FILENO);
@@ -123,6 +123,14 @@ void redirectStderrStdout(void) {
     dup2(STDOUT_FILENO, STDERR_FILENO);
 }
 
+void redirectStdinFile(char* fname, int mode) {
+    int file = open(fname, mode, 0666);
+    savedStdin = dup(STDIN_FILENO);
+    close(STDIN_FILENO);
+    dup2(file, STDIN_FILENO);
+    close(file);
+}
+
 void resetStdout(void) {
     dup2(savedStdout, STDOUT_FILENO);      
     close(savedStdout);
@@ -131,4 +139,9 @@ void resetStdout(void) {
 void resetStderr(void) {
     dup2(savedStderr, STDERR_FILENO);      
     close(savedStderr);
+}
+
+void resetStdin(void) {
+    dup2(savedStdin, STDIN_FILENO);      
+    close(savedStdin);
 }

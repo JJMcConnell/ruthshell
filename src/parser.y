@@ -67,6 +67,13 @@ command:
            resetStdout();
            resetStderr();
        }
+       |
+       concreteCommands LT file
+       {
+           redirectStdinFile($3, O_RDONLY);
+           runCmdAndFreeStrings();
+           resetStdin();
+       }
 
 concreteCommands:
        cmd.builtin

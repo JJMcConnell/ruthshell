@@ -10,6 +10,7 @@
 
 extern int savedStdout;
 extern int savedStderr;
+extern int savedStdin;
 
 /*** Utils ***/
 void printPrompt(void);
@@ -35,8 +36,10 @@ bool handledCommandWithAlias(char* cmd);
 /* for redirecting IO */
 void redirectStdoutFile(char* fname, int mode );
 void redirectStderrFile(char* fname, int mode);
+void redirectStdinFile(char* fname, int mode);
 void redirectStderrStdout(void);
 void resetStdout(void);
 void resetStderr(void);
+void resetStdin(void);
 
 #endif /* UTIL_H_ */

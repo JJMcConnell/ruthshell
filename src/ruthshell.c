@@ -38,8 +38,9 @@ void init() {
     // set all of the tab counts to 0
     aliasCount = 0;
     varCount = 0;
-    savedStdout = 1;
-    savedStderr = 2;
+    savedStdout = STDOUT_FILENO;
+    savedStderr = STDERR_FILENO;
+    savedStdin = STDIN_FILENO;
 }
 
 void teardown() {

@@ -60,7 +60,7 @@ void teardown() {
 
 /* need for flex and bison */
 void yyerror(const char *str) {
-   /* fprintf(stderr, "\nargv:\n");
+    fprintf(stderr, "\nargv:\n");
     char** cur = argv;
  
     while (*cur != NULL) {
@@ -69,7 +69,7 @@ void yyerror(const char *str) {
     fprintf(stderr, "\n");
 
     printf("last command: %s\n", yylval.word);
-*/
+
     fprintf(stderr, "error: %s\n", str);
 
     

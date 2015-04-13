@@ -19,8 +19,9 @@ char secondToLastWord[MAXSTRINGLEN];
 int main() {
     init();
 
+    printPrompt();
     while (1) {
-        printPrompt();
+        
         int status = yyparse();
 
         if (status == EOLFOUND) {

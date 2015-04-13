@@ -51,6 +51,7 @@ void moveAliasLeft(size_t i) {
 void listAllAliases(void) {
     size_t i = 0;
     
-    for (i = 0; i < aliasCount; ++i)
+    for (i = 0; i < aliasCount - 1; ++i)
         printf("%s\n", aliastab[i].alias);
+    printf("%s", aliastab[i].alias);
 }

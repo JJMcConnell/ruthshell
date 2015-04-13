@@ -39,6 +39,11 @@ command:
            runCmdAndFreeStrings();
        }
        |
+       concreteCommands PIPE command
+       {
+            runPipedCmdAndFreeStringsLeft();
+       }
+       |
        cmd.external AMP NL
        {
            runCmdAndFreeStringsBG();
@@ -78,11 +83,6 @@ command:
            redirectStdinFile($3, O_RDONLY);
            runCmdAndFreeStrings();
            resetStdin();
-       }
-       |
-       concreteCommands PIPE concreteCommands
-       {
-           printf("pipe the two!\n");
        }
 
 concreteCommands:

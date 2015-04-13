@@ -17,6 +17,10 @@ int savedStdin;
 
 /* utils */
 void printPrompt(void) {
+    // if not interactive, return
+    if (!interactive)
+        return;
+
     // check our PROMPT envar
     char* prompt = getenv("PROMPT");
     char buffer[MAXSTRINGLEN];

@@ -42,4 +42,7 @@ void resetStdout(void);
 void resetStderr(void);
 void resetStdin(void);
 
+/* will need freeing */
+void copyArgv(char** buffer, char** argv);
+
 #endif /* UTIL_H_ */

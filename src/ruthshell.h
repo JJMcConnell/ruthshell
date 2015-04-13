@@ -36,6 +36,10 @@ void ruthUnsetenv(char* variable);
 /* metacharacters */
 
 
+/* Signal Handling */
+void signal_handler(int signo);
+
+
 /* external commands */
 int runCmdAndFreeStrings(void);
 

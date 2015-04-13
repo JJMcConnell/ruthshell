@@ -5,6 +5,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <errno.h>
+#include <signal.h>
 
 #include "ruthshell.h"
 #include "util.h"
@@ -19,6 +20,10 @@ char secondToLastWord[MAXSTRINGLEN];
 int main() {
     init();
 
+    if (signal(SIGINT, signal_handler) == SIG_ERR) {
+
+        }
+
     printPrompt();
     while (1) {
         
@@ -32,6 +37,8 @@ int main() {
         else if (status == EXITSUCCESS) {
             return 0;
         }
+
+        
     }
 }
 
@@ -207,4 +214,12 @@ int runCmdAndFreeStringsBG(void) {
 
     popArgsFreeStrings(); // free argv
     return 0;
+}
+
+void signal_handler(int signo) {
+
+    if(signo == SIGINT) {
+        //printf("recieved SIGINT\n");        
+    }
+    
 }

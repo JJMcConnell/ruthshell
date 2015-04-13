@@ -15,7 +15,9 @@ unsetenv                   return UNSETENV;
 printenv                   return PRINTENV;
 alias                      return ALIAS;
 \>                         return GT;
+\>\>                       return GTGT;
 \<                         return LT;
+\<\<                       return LTLT;
 unalias                    moveTokensToYylval(yytext); return UNALIAS;
 [a-zA-Z0-9\/\-\.*_]+       moveTokensToYylval(yytext); return WORD; /*Free this memory*/ 
 \n                         printPrompt(); return NL; /* NL is newline */

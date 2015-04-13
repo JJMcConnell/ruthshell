@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <fcntl.h>
 
 #include "ruthshell.h"
 #include "util.h"
@@ -19,6 +20,7 @@
 %token <word> WORD STRING
 %token <word> BUILTIN
 %token <number> CD NL BYE ALIAS UNALIAS GT LT SETENV PRINTENV UNSETENV
+%token <number> GTGT LTLT
 
 %type <word> file
 
@@ -39,8 +41,14 @@ command:
        |
        concreteCommands GT file NL
        {
-           //printf("redirecting to stdout\n");
-           redirectStdoutFile($3);
+           redirectStdoutFile($3, O_RDWR | O_CREAT | O_TRUNC);
+           runCmdAndFreeStrings();
+           resetRedirects();
+       }
+       |
+       concreteCommands GTGT file NL
+       {
+           redirectStdoutFile($3, O_RDWR | O_CREAT | O_APPEND);
            runCmdAndFreeStrings();
            resetRedirects();
        }

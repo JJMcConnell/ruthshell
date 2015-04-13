@@ -32,9 +32,9 @@ void cleanStringBuffer(char* buffer);
 bool handledCommandWithAlias(char* cmd);
 
 /* for redirecting IO */
-void redirectStdoutFile(char* fname);
-void redirectStderrFile(char* fname);
-void redirectBothFile(char* fname);
+void redirectStdoutFile(char* fname, int mode );
+void redirectStderrFile(char* fname, int mode);
+void redirectBothFile(char* fname, int mode);
 void resetRedirects(void);
 
 #endif /* UTIL_H_ */

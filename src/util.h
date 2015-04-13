@@ -35,7 +35,8 @@ bool handledCommandWithAlias(char* cmd);
 /* for redirecting IO */
 void redirectStdoutFile(char* fname, int mode );
 void redirectStderrFile(char* fname, int mode);
-void redirectBothFile(char* fname, int mode);
-void resetRedirects(void);
+void redirectStderrStdout(void);
+void resetStdout(void);
+void resetStderr(void);
 
 #endif /* UTIL_H_ */

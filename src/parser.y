@@ -20,7 +20,7 @@
 %token <word> WORD STRING
 %token <word> BUILTIN
 %token <number> CD NL BYE ALIAS UNALIAS GT LT SETENV PRINTENV UNSETENV
-%token <number> GTGT LTLT
+%token <number> GTGT LTLT TWOGT TWOGTAND
 
 %type <word> file
 
@@ -43,14 +43,29 @@ command:
        {
            redirectStdoutFile($3, O_RDWR | O_CREAT | O_TRUNC);
            runCmdAndFreeStrings();
-           resetRedirects();
+           resetStdout();
        }
        |
        concreteCommands GTGT file NL
        {
            redirectStdoutFile($3, O_RDWR | O_CREAT | O_APPEND);
            runCmdAndFreeStrings();
-           resetRedirects();
+           resetStdout();
+       }
+       |
+       concreteCommands TWOGT file NL
+       {
+           redirectStderrFile($3, O_RDWR | O_CREAT | O_APPEND);
+           runCmdAndFreeStrings();
+           resetStderr();
+       }
+       |
+       concreteCommands TWOGTAND file NL
+       {
+           redirectStderrStdout();
+           runCmdAndFreeStrings();
+           resetStdout();
+           resetStderr();
        }
 
 concreteCommands:

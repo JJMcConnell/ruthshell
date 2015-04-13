@@ -104,27 +104,31 @@ bool handledCommandWithAlias(char* cmd) {
 /* IO Redirection */
 void redirectStdoutFile(char* fname, int mode) {
     int file = open(fname, mode, 0666);
-    savedStdout = dup(1);
-    close(1);
-    dup(file);
+    savedStdout = dup(STDOUT_FILENO);
+    close(STDOUT_FILENO);
+    dup2(file, STDOUT_FILENO);
     close(file);
 }
 
 void redirectStderrFile(char* fname, int mode) {
+    printf("REDIRECT STDERR FILE\n");
     int file = open(fname, mode, 0666);
-    savedStdout = dup(1);
-    close(2);
-    dup(file);
+    savedStderr = dup(STDERR_FILENO);
+    close(STDERR_FILENO);
+    dup2(file, STDERR_FILENO);
     close(file);
 }
 
-void redirectBothFile(char* fname, int mode) {
-    dup2(1, 2);
-    redirectStdoutFile(fname, mode);
+void redirectStderrStdout(void) {
+    dup2(STDOUT_FILENO, STDERR_FILENO);
 }
 
-void resetRedirects(void) {
-    dup2(savedStdout, 1);      
-    dup2(savedStderr, 1);      
+void resetStdout(void) {
+    dup2(savedStdout, STDOUT_FILENO);      
     close(savedStdout);
+}
+
+void resetStderr(void) {
+    dup2(savedStderr, STDERR_FILENO);      
+    close(savedStderr);
 }

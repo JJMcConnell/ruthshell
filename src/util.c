@@ -45,8 +45,7 @@ void processStringLiteral(char* literal, char* buffer) {
     ++literal;
 
     while (*literal != '\0') {
-        if (*literal == '\\')
-            ++literal;
+   
         *buffer++ = *literal++;
     }
 

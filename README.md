@@ -8,7 +8,7 @@ Using yacc/bison and lex/flex
 Not Implemented - 
     -Metacharacters:
         -Piping 
-        -I/O redirection
+        
     -Wildcard Matching
     -Reading commands from a file
     -Extra credit
@@ -21,6 +21,7 @@ Implemented -
         -Double quotes ("")
         -Backgrounding (&)
         -Escape (\)
+        -I/O redirection (> and < )
     -Built-in Commands
         -setenv variable word
         -printenv
